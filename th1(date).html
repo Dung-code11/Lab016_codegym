@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thực hành 1 lớp date</title>
+</head>
+<body>
+    <script>
+        // Define the MyDate constructor function only once
+        let MyDate = function(day, month, year) {
+            this.day = day;
+            this.month = month;
+            this.year = year;
+
+            this.getDay = function() {
+                return this.day;
+            }
+
+            this.getMonth = function() {
+                return this.month;
+            }
+
+            this.getYear = function() {
+                return this.year;
+            }
+
+            this.setDay = function(day) {
+                this.day = day;
+            }
+
+            this.setMonth = function(month) {
+                this.month = month;
+            }
+
+            this.setYear = function(year) {
+                this.year = year;
+            }
+
+            // Method to set day, month, and year at once
+            this.setDate = function(day, month, year) {
+                this.day = day;
+                this.month = month;
+                this.year = year;
+            }
+
+            // Method to return date in dd/mm/yyyy format
+            this.toString = function() {
+                // Ensure day and month are always two digits
+                let dayStr = this.day < 10 ? '0' + this.day : this.day;
+                let monthStr = this.month < 10 ? '0' + this.month : this.month;
+                return dayStr + "/" + monthStr + "/" + this.year;
+            }
+        };
+
+        // Create an instance of MyDate
+        let date = new MyDate(2, 2, 2007);
+
+        // Get and display the initial date
+        let day = date.getDay(); // 2
+        let month = date.getMonth(); // 2
+        let year = date.getYear(); // 2007
+        alert(day + "/" + month + "/" + year);  // Output: 2/2/2007
+
+        // Update the date and display it again
+        date.setDate(10, 10, 2019);  // Setting new date
+
+        // Display the updated date using toString method
+        alert(date.toString());  // Output: 10/10/2019
+    </script>
+</body>
+</html>
