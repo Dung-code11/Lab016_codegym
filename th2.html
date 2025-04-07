@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thực hành 2</title>
+</head>
+<body>
+    <script>
+        class hinhtron {
+            constructor(radius = 1,color = "red"){
+            this.radius = radius;
+            this.color = color;
+        }
+        getradius(){
+            return this.radius;
+        }
+        getArea(){
+            return Math.PI * Math.pow(this.radius, 2);
+        }
+    } 
+    let mycircle = new hinhtron(5, "blue");
+    document.writeln("bán kính: " + mycircle.getradius());
+    document.writeln("Diện tích: " +mycircle.getArea());
+    mycircle.radius =10;
+    mycircle.color = "green";
+    document.writeln("bán kính: " + mycircle.getradius());
+    document.writeln("Diện tích: " +mycircle.getArea());
+    </script>
+</body>
+</html>
