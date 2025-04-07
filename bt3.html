@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài Tập 3</title>
+</head>
+<body>
+    <script>
+        function dienthoai(ten) {
+            this.ten = ten;
+            this.pin = 100;
+            this.isOn = false;
+            this.draft = "";
+            this.inbox = [];
+            this.sent = [];
+
+            this.checkstatus = function() {
+                return this.isOn ? "Bật" : "Tắt";
+            };
+
+            this.turnOn = function() {
+                if (this.pin > 0) {
+                    this.isOn = true;
+                } else {
+                    this.isOn = false;
+                }
+            };
+
+            this.turnOff = function() {
+                this.isOn = false;
+            };
+
+            this.charge = function() {
+                this.pin = 100;
+                console.log(this.ten + " đã sạc đầy pin");
+            };
+
+            this.writeMessage = function(msg) {
+                if (this.isOn && this.pin > 0) {
+                    this.draft = msg;
+                    this.pin--;
+                }
+            };
+
+            this.sendMessage = function(reciver) {
+                if (this.isOn && this.pin > 0 && this.draft !== "") {
+                    reciver.reciveMessage(this.draft, this);
+                    this.sent.push(this.draft);
+                    this.draft = "";
+                    this.pin--;
+                }
+            };
+
+            this.reciveMessage = function(msg, sender) {
+                if (this.isOn && this.pin > 0) {
+                    this.inbox.push(`${sender.ten}: ${msg}`);
+                    this.pin--;
+                }
+            };
+
+            this.showInbox = function() {
+                if (this.isOn && this.pin > 0) {
+                    console.log("📥 Inbox của " + this.ten + ":");
+                    this.inbox.forEach((msg, i) => console.log(`${i + 1}. ${msg}`));
+                    this.pin--;
+                }
+            };
+
+            this.showSent = function() {
+                if (this.isOn && this.pin > 0) {
+                    console.log("📤 Tin đã gửi của " + this.ten + ":");
+                    this.sent.forEach((msg, i) => console.log(`${i + 1}. ${msg}`));
+                    this.pin--;
+                }
+            };
+        }
+
+        let phone1 = new dienthoai("Iphone");
+        let phone2 = new dienthoai("Samsung");
+
+        phone1.turnOn();
+        phone2.turnOn();
+
+        phone1.writeMessage("Hello");
+        phone1.sendMessage(phone2);
+
+        phone2.writeMessage("Chào bạn. Hack hệ thống bây giờ");
+        phone2.sendMessage(phone1);
+
+        phone1.showInbox();
+        phone1.showSent();
+
+        phone2.showInbox();
+        phone2.showSent();
+    </script>
+</body>
+</html>
