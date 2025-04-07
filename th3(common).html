@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ứng dụng Hình Tròn với Hiệu Ứng</title>
+    <style>
+        canvas {
+            border: 1px solid #d3d3d3;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="800" height="600"></canvas>
+    <script>
+        // Hàm tạo hình tròn với các thuộc tính: bán kính, màu sắc, vị trí, tốc độ di chuyển
+        function createCircle(radius, color, x, y) {
+            return {
+                radius: radius,
+                color: color,
+                x: x,
+                y: y,
+                dx: (Math.random() - 0.5) * 4, // Di chuyển ngẫu nhiên theo trục X
+                dy: (Math.random() - 0.5) * 4, // Di chuyển ngẫu nhiên theo trục Y
+
+                // Vẽ hình tròn lên canvas
+                draw: function(ctx) {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                },
+
+                // Di chuyển hình tròn
+                move: function() {
+                    this.x += this.dx;
+                    this.y += this.dy;
+
+                    // Đổi hướng nếu hình tròn va vào biên của canvas
+                    if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+                        this.dx = -this.dx;
+                    }
+
+                    if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+                        this.dy = -this.dy;
+                    }
+                }
+            };
+        }
+
+        // Tạo canvas và context
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // Tạo một mảng các hình tròn ngẫu nhiên với các màu khác nhau
+        const circles = [];
+        for (let i = 0; i < 30; i++) {
+            const radius = Math.random() * 20 + 10; // Bán kính ngẫu nhiên từ 10 đến 30
+            const x = Math.random() * (canvas.width - radius * 2) + radius; // Vị trí ngẫu nhiên
+            const y = Math.random() * (canvas.height - radius * 2) + radius; // Vị trí ngẫu nhiên
+            const color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`; // Màu ngẫu nhiên
+            circles.push(createCircle(radius, color, x, y));
+        }
+
+        // Hàm vẽ lại tất cả các hình tròn và cập nhật các hiệu ứng
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Xóa màn hình cũ
+
+            for (let i = 0; i < circles.length; i++) {
+                circles[i].move();   // Di chuyển các hình tròn
+                circles[i].draw(ctx); // Vẽ hình tròn lên canvas
+            }
+
+            requestAnimationFrame(animate); // Gọi lại hàm animate để tạo hiệu ứng liên tục
+        }
+
+        // Bắt đầu vẽ và tạo hiệu ứng
+        animate();
+    </script>
+</body>
+</html>
