@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bài tập 1</title>
+</head>
+<body>
+  <canvas id="myCanvas" width="400" height="300" style="border:1px solid #000;"></canvas>
+  <br>
+  <button onclick="drawrectangle()">Vẽ hình chữ nhật</button>
+
+  <script>
+    function rectangle(cd, cr) {
+      this.cd = cd;
+      this.cr = cr;
+
+      this.getArea = function() {
+        return this.cd * this.cr;
+      };
+
+      this.getPerimeter = function() {
+        return 2 * (this.cd + this.cr);
+      };
+
+      this.draw = function(ctx, x, y) {
+        ctx.beginPath(); // ✅ sửa ở đây
+        ctx.rect(x, y, this.cd, this.cr);
+        ctx.strokeStyle = "blue";
+        ctx.stroke();
+
+        ctx.font = "14px Arial";
+        ctx.fillStyle = "black";
+        ctx.fillText("Area: " + this.getArea(), x, y + this.cr + 20);       // ✅ thêm ()
+        ctx.fillText("Perimeter: " + this.getPerimeter(), x, y + this.cr + 40);
+      };
+    }
+
+    function drawrectangle() {
+      var canvas = document.getElementById("myCanvas");
+      var ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // ✅ sửa ở đây
+
+      var rect = new rectangle(150, 80);
+      rect.draw(ctx, 50, 50);
+    }
+  </script>
+</body>
+</html>
