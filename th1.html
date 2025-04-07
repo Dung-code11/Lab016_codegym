@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thực hành 1</title>
+</head>
+<body>
+    <canvas id="myCanvas1" width="200" height="100" style="border:1px solid #d3d3d3;">
+        Your browser does not support the HTML5 canvas tag.</canvas>
+        <br>
+        <button onclick="bt1()">Vẽ đường thẳng</button>
+        <br>
+        <canvas id="myCanvas2" width="200" height="100" style="border:1px solid #d3d3d3;">
+            Your browser does not support the HTML5 canvas tag.</canvas>
+            <br>
+            <button onclick="bt2()">Vẽ đường tròn</button>
+            <br>
+            <canvas id="myCanvas3" width="200" height="100" style="border:1px solid #d3d3d3;">
+                Your browser does not support the HTML5 canvas tag.</canvas>
+                <br>
+                <button onclick="bt3()">Vẽ chữ</button>
+                <br>
+                <canvas id="myCanvas4" width="200" height="100" style="border:1px solid #d3d3d3;">
+                    Your browser does not support the HTML5 canvas tag.</canvas>
+                    <br>
+                    <button onclick="bt4()">Vẽ Hiệu ứng</button>
+                    <br>  
+                    <canvas id="myCanvas5" width="200" height="100" style="border:1px solid #d3d3d3;">
+                        Your browser does not support the HTML5 canvas tag.</canvas>
+                        <br>
+                        <button onclick="bt5()">Vẽ Hiệu ứng tròn</button>
+                        <br>  
+        <script>
+            function bt1(){
+            var c = document.getElementById("myCanvas1");
+var ctx = c.getContext("2d");
+ctx.moveTo(0,0);
+ctx.lineTo(200,100);
+ctx.stroke();
+            }
+            function bt2(){
+                var c = document.getElementById("myCanvas2");
+var ctx = c.getContext("2d");
+ctx.beginPath();
+ctx.arc(95,50,40,0,2*Math.PI);
+ctx.stroke();
+            }
+            function bt3(){
+                var c = document.getElementById("myCanvas3");
+var ctx = c.getContext("2d");
+ctx.font = "30px Arial";
+ctx.fillText("Hello World",10,50);
+            }
+            function bt4(){
+                var c = document.getElementById("myCanvas4");
+var ctx = c.getContext("2d");
+
+// Create gradient
+var grd = ctx.createLinearGradient(0,0,200,0);
+grd.addColorStop(0,"red");
+grd.addColorStop(1,"white");
+
+// Fill with gradient
+ctx.fillStyle = grd;
+ctx.fillRect(10,10,150,80);
+            }
+            function bt5(){
+    var c = document.getElementById("myCanvas5");
+    var ctx = c.getContext("2d");
+
+    // Tạo gradient hình tròn
+    var grd = ctx.createRadialGradient(75, 50, 5, 75, 50, 40); // Vị trí và bán kính của gradient
+    grd.addColorStop(0, "red");
+    grd.addColorStop(1, "white");
+
+    // Fill với gradient hình tròn
+    ctx.fillStyle = grd;
+    ctx.beginPath();
+    ctx.arc(75, 50, 40, 0, 2 * Math.PI); // Vẽ hình tròn
+    ctx.fill(); // Tô màu
+}
+
+        </script>
+</body>
+</html>
