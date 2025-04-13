@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Mô phỏng công tắc và bóng đèn</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    #log { white-space: pre-line; background: #f9f9f9; padding: 15px; border: 1px solid #ccc; margin-top: 20px; }
+    button { padding: 10px 15px; margin: 5px; font-size: 16px; }
+  </style>
+</head>
+<body>
+
+<h2>💡 Mô phỏng Công tắc và Bóng đèn</h2>
+
+<button onclick="switchBtn.switchOn()">Bật công tắc</button>
+<button onclick="switchBtn.switchOff()">Tắt công tắc</button>
+
+<div id="log"></div>
+
+<script>
+  class ElectricLamp {
+    constructor() {
+      this.status = false;
+    }
+
+    turnOn() {
+      this.status = true;
+      log("💡 Bóng đèn sáng!");
+    }
+
+    turnOff() {
+      this.status = false;
+      log("💤 Bóng đèn tắt!");
+    }
+  }
+
+  class SwitchButton {
+    constructor() {
+      this.status = false;
+      this.lamp = null;
+    }
+
+    connectToLamp(lamp) {
+      this.lamp = lamp;
+      log("🔌 Công tắc đã kết nối với bóng đèn.");
+    }
+
+    switchOn() {
+      if (this.lamp) {
+        this.status = true;
+        this.lamp.turnOn();
+      } else {
+        log("❌ Chưa kết nối bóng đèn.");
+      }
+    }
+
+    switchOff() {
+      if (this.lamp) {
+        this.status = false;
+        this.lamp.turnOff();
+      } else {
+        log("❌ Chưa kết nối bóng đèn.");
+      }
+    }
+  }
+
+  // Hàm hiển thị log
+  function log(message) {
+    const logDiv = document.getElementById("log");
+    logDiv.innerText += message + "\n";
+    logDiv.scrollTop = logDiv.scrollHeight;
+  }
+
+  // Khởi tạo đối tượng
+  const lamp = new ElectricLamp();
+  const switchBtn = new SwitchButton();
+  switchBtn.connectToLamp(lamp);
+</script>
+
+</body>
+</html>
