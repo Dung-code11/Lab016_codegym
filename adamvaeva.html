@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Adam và Eva ăn táo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #fdf5e6;
+        }
+        #log {
+            white-space: pre-line;
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>🍎 Mô phỏng Adam và Eva ăn táo</h2>
+<button onclick="startStory()">Bắt đầu câu chuyện</button>
+
+<div id="log"></div>
+
+<script>
+    // Lớp Apple
+    class Apple {
+        constructor() {
+            this._weight = 10;
+        }
+
+        getWeight() {
+            return this._weight;
+        }
+
+        decreaseWeight() {
+            if (this._weight > 0) this._weight -= 1;
+        }
+    }
+
+    // Lớp Human
+    class Human {
+        constructor(name, gender, weight) {
+            this.name = name;
+            this.gender = gender;
+            this.weight = weight;
+        }
+
+        say(message) {
+            log(`${this.name} nói: "${message}"`);
+        }
+
+        eat(apple) {
+            if (apple.getWeight() > 0) {
+                apple.decreaseWeight();
+                this.weight += 1;
+                log(`${this.name} ăn một miếng táo 🍎. Cân nặng: ${this.weight}, Táo còn: ${apple.getWeight()}`);
+            } else {
+                log(`${this.name} định ăn nhưng táo đã hết.`);
+            }
+        }
+
+        getInfo() {
+            return `${this.name} - Giới tính: ${this.gender}, Cân nặng: ${this.weight}`;
+        }
+    }
+
+    function log(message) {
+        const logDiv = document.getElementById("log");
+        logDiv.innerText += message + "\n";
+        logDiv.scrollTop = logDiv.scrollHeight;
+    }
+
+    function startStory() {
+        document.getElementById("log").innerText = "";
+
+        const apple = new Apple();
+        const adam = new Human("Adam", "Nam", 60);
+        const eva = new Human("Eva", "Nữ", 50);
+
+        adam.say("Chào Eva, nhìn quả táo kìa!");
+        eva.say("Trông ngon quá! Mình ăn thử đi!");
+
+        let turn = 0;
+        const interval = setInterval(() => {
+            if (apple.getWeight() <= 0) {
+                clearInterval(interval);
+                log("\n🍎 Quả táo đã bị ăn hết!");
+                log(adam.getInfo());
+                log(eva.getInfo());
+                return;
+            }
+
+            if (turn % 2 === 0) {
+                adam.eat(apple);
+            } else {
+                eva.eat(apple);
+            }
+            turn++;
+        }, 800);
+    }
+</script>
+
+</body>
+</html>
