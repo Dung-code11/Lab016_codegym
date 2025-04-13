@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Cờ Ca-rô 2 Người</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+    #board {
+      display: grid;
+      grid-template-columns: repeat(20, 30px);
+      grid-template-rows: repeat(20, 30px);
+      gap: 1px;
+      margin: 20px auto;
+      width: fit-content;
+    }
+    .cell {
+      width: 30px;
+      height: 30px;
+      border: 1px solid #ccc;
+      font-size: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .cell:hover {
+      background: #eee;
+    }
+    #message {
+      font-size: 20px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>🎮 Cờ Ca-rô 2 Người</h2>
+<div id="board"></div>
+<div id="message"></div>
+
+<script>
+  const SIZE = 20;
+  const board = document.getElementById('board');
+  const message = document.getElementById('message');
+  let currentPlayer = 'X';
+  let grid = [];
+
+  // Tạo bàn cờ 20x20
+  for (let i = 0; i < SIZE; i++) {
+    grid[i] = [];
+    for (let j = 0; j < SIZE; j++) {
+      const cell = document.createElement('div');
+      cell.classList.add('cell');
+      cell.dataset.row = i;
+      cell.dataset.col = j;
+      cell.addEventListener('click', handleClick);
+      board.appendChild(cell);
+      grid[i][j] = '';
+    }
+  }
+
+  function handleClick(event) {
+    const row = parseInt(event.target.dataset.row);
+    const col = parseInt(event.target.dataset.col);
+
+    if (grid[row][col] !== '' || message.textContent !== '') return;
+
+    grid[row][col] = currentPlayer;
+    event.target.textContent = currentPlayer;
+
+    if (checkWin(row, col)) {
+      message.textContent = `🎉 Người chơi '${currentPlayer}' thắng!`;
+      board.querySelectorAll('.cell').forEach(cell => cell.removeEventListener('click', handleClick));
+    } else {
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    }
+  }
+
+  function checkWin(row, col) {
+    return (
+      checkDirection(row, col, 0, 1) ||  // ngang
+      checkDirection(row, col, 1, 0) ||  // dọc
+      checkDirection(row, col, 1, 1) ||  // chéo chính
+      checkDirection(row, col, 1, -1)    // chéo phụ
+    );
+  }
+
+  function checkDirection(row, col, dx, dy) {
+    let count = 1;
+    count += countInDirection(row, col, dx, dy);
+    count += countInDirection(row, col, -dx, -dy);
+    return count >= 5;
+  }
+
+  function countInDirection(row, col, dx, dy) {
+    let count = 0;
+    let r = row + dx;
+    let c = col + dy;
+    while (r >= 0 && r < SIZE && c >= 0 && c < SIZE && grid[r][c] === currentPlayer) {
+      count++;
+      r += dx;
+      c += dy;
+    }
+    return count;
+  }
+</script>
+
+</body>
+</html>
